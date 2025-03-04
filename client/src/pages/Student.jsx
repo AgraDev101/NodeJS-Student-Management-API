@@ -48,6 +48,21 @@ function Student() {
         setDetails(data[0])
     }
 
+    const handleUpdate = async () => {
+        let res = await fetch(`http://localhost:5000/students/student/${user.id}`, {
+            method: "PATCH",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                course: course
+            })
+        })
+        let data = await res.json()
+        console.log(data)
+    }
+
     return (
         <>
             <Header />
@@ -72,6 +87,7 @@ function Student() {
                 </select>
                 <br></br>
                 <button onClick={handleStudent} type="button" class="btn btn-primary">Register</button>
+                <button onClick={handleUpdate} type="button" class="ms-2 btn btn-primary">Add course</button>
             </div>
             <div style={{
                 width: "60%",

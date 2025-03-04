@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Header from "../components/Header"
+import { Student } from "../../../server/db/userSchema"
 
 function Teacher() {
 
@@ -7,8 +8,9 @@ function Teacher() {
     let [ lname, setLname] = useState("")
     let [ course, setCourse] = useState("robotics")
     let [ details, setDetails] = useState({})
+    let [ enrolledStudents, setEnrolledStudents] = useState([])
 
-    console.log(details)
+    console.log(enrolledStudents)
 
     let user = JSON.parse(localStorage.getItem("user")) ?? ""
 
@@ -41,6 +43,27 @@ function Teacher() {
         let data = await res.json()
         setDetails(data[0])
         console.log(data)
+    }
+
+    const handleDelete = async () => {
+        let res = await fetch(`http://localhost:5000/teachers/teacher/${user.id}`, {
+            method: "DELETE",
+            credentials: "include",
+        })
+        let data = await res.json()
+        console.log(data)
+    }
+
+    const getStudentCourse = async () => {
+        let res = await fetch(`http://localhost:5000/teachers/teacher?course=${details?.course}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        let data = await res.json()
+        setEnrolledStudents(data.data)
     }
 
     useEffect(() => {
@@ -81,13 +104,23 @@ function Teacher() {
                 </select>
                 <br></br>
                 <button onClick={handleTeacher} type="button" class="btn btn-primary">Register</button>
+                <button onClick={getStudentCourse} type="button" class="ms-2 btn btn-primary">Get Students</button>
+                <button onClick={handleDelete} type="button" class="ms-2 btn btn-primary">Delete Profile</button>
             </div>
             <div style={{
                 width: "60%",
                 margin: "20px auto"
             }}>
-                <h3>Name: {details.firstName + " " + details.lastName}</h3>
-                <h3>Teaching Course: {details.course}</h3>
+                <h3>Name: {details?.firstName + " " + details?.lastName}</h3>
+                <h3>Teaching Course: {details?.course}</h3>
+                <hr></hr>
+                {
+                    enrolledStudents?.map((student) => {
+                        return (
+                            <h3>{student.firstName} {student.lastName}</h3>
+                        )
+                    })
+                }
             </div>
             </>
     )
