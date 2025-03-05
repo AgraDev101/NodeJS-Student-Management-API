@@ -105,7 +105,7 @@ router.get("/logout", (req, res) => {
     }).json({ message: "logged out" })
 })
 
-router.get("/profile", protect, (req, res) => {
+router.get("/test", protect, (req, res) => {
     console.log(req.cookies.jwt)
     return res.json({message: "you are logged in"})
 })
