@@ -49,6 +49,9 @@ function Student() {
     }
 
     const handleUpdate = async () => {
+        if(details.courses.some((course1) => course1 == course)) {
+            return console.log("already enrolled")
+        }
         let res = await fetch(`http://localhost:5000/students/student/${user.id}`, {
             method: "PATCH",
             credentials: "include",

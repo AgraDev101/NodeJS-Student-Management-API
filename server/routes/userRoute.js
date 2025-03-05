@@ -3,6 +3,8 @@ import bcrypt from "bcrypt"
 import { User } from "../db/userSchema.js"
 import { protect } from "../util/protect.js"
 import { generateToken } from "../util/genToken.js"
+import jwt from "jsonwebtoken";
+import { sendMail } from "../util/sendMail.js"
 
 const router = express.Router()
 
@@ -39,7 +41,7 @@ router.post("/login", async (req, res) => {
             res.json({ message: "password incorrect" })
         }
         let token = generateToken(user._id)
-        res.status(201).cookie("jwt", token, {
+        return res.status(201).cookie("jwt", token, {
             httpOnly: true
         }).json({
             message: "logged in",
@@ -47,6 +49,50 @@ router.post("/login", async (req, res) => {
             role: user.role,
             id: user._id
         })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.post("/forgot", async (req, res) => {
+    try {
+        let { username, email } = req.body
+        const user = await User.findOne({username: username})
+        if (!user) {
+            return res.json({message: "user not present"})
+        }
+        let token = jwt.sign({ username }, "secret123", {
+            expiresIn: "1h"
+        })
+        sendMail(
+            email,
+            "Password reset email",
+            `http://localhost:5000/v1/reset/${token}`
+        )
+
+        return res.json({
+            message: "Link sent"
+        })  
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.post("/reset", async (req, res) => {
+    try {
+        let token = req.body.token
+        let password = req.body.password
+        let decode = jwt.verify(token, "secret123")
+        let getUser = await User.findOne({ username: decode.username })
+
+        let hashedPassword = await bcrypt.hash(password, 4)
+
+        getUser.password = hashedPassword
+
+        getUser.save()
+
+        return res.json({ message: "password updated" })
+
     } catch (error) {
         console.log(error)
     }
@@ -66,7 +112,7 @@ router.get("/profile", protect, (req, res) => {
 
 export { router }
 
-// student management API
-// CR student API,
-// CRU teacher,
-// ROLE BASED ACCESS, 
+// API user is present in database or not
+// send token, include username, email
+// second API, verify token, updated password, fetch user from database
+// update password

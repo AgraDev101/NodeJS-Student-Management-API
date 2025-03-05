@@ -1,18 +1,29 @@
 
 
-let checkRole = (arrayOfUsers) => {
-    let b = (reqUser) => {
-        let result = arrayOfUsers.some((role) => role == reqUser)
-        if (result) {
-            console.log("access granted")
-        } else {
-            console.log("access denied")
-        }
-    }
-    return b
-}
+// let listOfCourses = [
+//     "AI",
+//     "DS",
+// ]
 
-let result = checkRole(["student"])("admin")
+// let additionalCourse = "Robotics"
+
+// console.log(listOfCourses.includes(additionalCourse))
+
+
+
+// let checkRole = (arrayOfUsers) => {
+//     let b = (reqUser) => {
+//         let result = arrayOfUsers.some((role) => role == reqUser)
+//         if (result) {
+//             console.log("access granted")
+//         } else {
+//             console.log("access denied")
+//         }
+//     }
+//     return b
+// }
+
+// let result = checkRole(["student"])("admin")
 
 
 

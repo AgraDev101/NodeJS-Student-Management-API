@@ -9,11 +9,7 @@ function Header() {
 
     let navigate = useNavigate()
 
-    let user = JSON.parse(localStorage.getItem("user")) ?? ""
-
-    if (user) {
-
-    }
+    let user = JSON.parse(localStorage.getItem("user")) || ""
 
     let handleLogout = async () => {
         let res = await fetch("http://localhost:5000/v1/logout", {
@@ -47,10 +43,10 @@ function Header() {
                 <li style={user ? showStyle : showStyle}>
                     <NavLink to="/" element={<Home />}>Home Page</NavLink>
                 </li>
-                <li style={user.role == "teacher" ? hideStyle : showStyle}>
+                <li style={(user.role == "teacher") || (!user) ? hideStyle : showStyle}>
                     <NavLink to="/student" element={<Student />}>Student Page</NavLink>
                 </li>
-                <li style={user.role == "student" ? hideStyle : showStyle}>
+                <li style={(user.role == "student") || (!user) ? hideStyle : showStyle}>
                     <NavLink to="/teacher" element={<Teacher />}>Teacher Page</NavLink>
                 </li>
                 <li style={user ? hideStyle : showStyle}>
@@ -59,7 +55,7 @@ function Header() {
                 <li style={user ? hideStyle : showStyle}>
                     <NavLink to="/register" element={<Register />}>Register Page</NavLink>
                 </li>
-                <li>
+                <li style={(!user) ? hideStyle : showStyle}>
                     <button onClick={handleLogout}>Logout</button>
                 </li>
             </ul>
