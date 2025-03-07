@@ -39,22 +39,22 @@ function Header() {
             listStyle: "none",
             justifyContent: "space-between"
             }}>
-                <li style={user ? showStyle : showStyle}>
+                <li style={ user ? showStyle : showStyle }>
                     <NavLink to="/" element={<Home />}>Home Page</NavLink>
                 </li>
-                <li style={(user.role == "teacher") || (!user) ? hideStyle : showStyle}>
+                <li style={ (user.role == "teacher") || (!user) ? hideStyle : showStyle }>
                     <NavLink to="/student" element={<Student />}>Student Page</NavLink>
                 </li>
-                <li style={(user.role == "student") || (!user) ? hideStyle : showStyle}>
+                <li style={ (user.role == "student") || (!user) ? hideStyle : showStyle }>
                     <NavLink to="/teacher" element={<Teacher />}>Teacher Page</NavLink>
                 </li>
-                <li style={user ? hideStyle : showStyle}>
+                <li style={ user ? hideStyle : showStyle }>
                     <NavLink to="/login" element={<Login />}>Login Page</NavLink>
                 </li>
-                <li style={user ? hideStyle : showStyle}>
+                <li style={ user ? hideStyle : showStyle }>
                     <NavLink to="/register" element={<Register />}>Register Page</NavLink>
                 </li>
-                <li className="mt-n2" style={(!user) ? hideStyle : showStyle}>
+                <li className="mt-n2" style={ (!user) ? hideStyle : showStyle }>
                     <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
                 </li>
             </ul>

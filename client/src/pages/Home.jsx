@@ -5,7 +5,7 @@ function Home() {
 
     // let [ usersList, setUsersList ] = useState([])
     // let [ postPerPage, setPostPerPage ] = useState(0)
-    // let [ totalPosts, setTotalPosts ] = useState(12)
+    // let [ totalPosts, setTotalPosts ] = useState(0)
     // let [ page, setPage ] = useState(1);
 
     // let getData = async (page) => {
