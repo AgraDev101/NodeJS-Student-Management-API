@@ -1,9 +1,9 @@
 import express from "express"
+import multer from "multer"
+import path from "path"
 import { Student } from "../db/userSchema.js"
 import { protect } from "../util/protect.js"
 import { checkRole } from "../util/checkRole.js"
-import multer from "multer"
-import path from "path"
 import { __dirname } from "../index.js"
 
 const storage = multer.diskStorage({
