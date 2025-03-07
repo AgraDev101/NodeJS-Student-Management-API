@@ -16,7 +16,6 @@ function App() {
       <Route path='/student' element={<Student />}></Route>
       <Route path='/teacher' element={<Teacher />}></Route>
       <Route path='/register' element={<Register />}></Route>
-      <Route path='/reset/:token' element={<Reset />}></Route>
       <Route path='*' element={<NotFound />}></Route>
     </Routes>
   )

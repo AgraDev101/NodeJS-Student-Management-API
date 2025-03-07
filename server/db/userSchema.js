@@ -28,7 +28,10 @@ const studentSchema = new Schema({
         type: String,
         required: true
     },
-    courses: [{type: String }]
+    courses: [{type: String }],
+    imageFileName: {
+        type: String
+    }
 })
 
 const teacherSchema = new Schema({

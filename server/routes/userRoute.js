@@ -54,6 +54,22 @@ router.post("/login", async (req, res) => {
     }
 })
 
+router.post("/update", protect, async (req, res) => {
+    let { password } = req.body
+    try {
+        let hashedPassword = await bcrypt.hash(password, 4)
+        let getUser = await User.findOne({ _id: req.user.id})
+
+        getUser.password = hashedPassword
+
+        getUser.save()
+
+        return res.json({ message: "password updated" })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 router.post("/forgot", async (req, res) => {
     try {
         let { username, email } = req.body

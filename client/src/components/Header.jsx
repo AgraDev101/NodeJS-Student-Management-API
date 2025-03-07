@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
@@ -12,11 +12,10 @@ function Header() {
     let user = JSON.parse(localStorage.getItem("user")) || ""
 
     let handleLogout = async () => {
-        let res = await fetch("http://localhost:5000/v1/logout", {
+        await fetch("http://localhost:5000/v1/logout", {
             credentials: "include",
             method: "GET",
         })
-        let data = await res.json()
         localStorage.clear()
         navigate("/")
     }
@@ -55,8 +54,8 @@ function Header() {
                 <li style={user ? hideStyle : showStyle}>
                     <NavLink to="/register" element={<Register />}>Register Page</NavLink>
                 </li>
-                <li style={(!user) ? hideStyle : showStyle}>
-                    <button onClick={handleLogout}>Logout</button>
+                <li className="mt-n2" style={(!user) ? hideStyle : showStyle}>
+                    <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
                 </li>
             </ul>
         </div>

@@ -42,7 +42,6 @@ function Login() {
                 })
             })
             let data = await res.json()
-            console.log(data)
             localStorage.setItem("user", JSON.stringify({
                 username: data.username,
                 role: data.role,

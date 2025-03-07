@@ -2,9 +2,15 @@ import express from "express"
 import cookieParser from "cookie-parser"
 import { connectDB } from "./db/connectDB.js"
 import cors from "cors"
+import path from "path"
+import { fileURLToPath } from "url"
 import { router as userRoute } from "./routes/userRoute.js"
 import { router as studentRoute } from "./routes/studentRoute.js"
 import { router as teacherRoute } from "./routes/teacherRoute.js"
+
+const __filename = fileURLToPath(import.meta.url)
+
+export const __dirname = path.dirname(__filename)
 
 connectDB()
 

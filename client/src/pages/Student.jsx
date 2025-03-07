@@ -5,18 +5,31 @@ function Student() {
 
     let [ fname, setFname] = useState("")
     let [ lname, setLname] = useState("")
+    let [ file1, setFile] = useState(null)
     let [ course, setCourse] = useState("robotics")
     let [ details, setDetails] = useState({})
 
-    details.courses?.map((x) => {
-        console.log(x)
-    })
-
-    let user = JSON.parse(localStorage.getItem("user"))
+    let user = JSON.parse(localStorage.getItem("user")) || ""
 
     useEffect(() => {
         handleDetail()
     }, [])
+
+    const handleUpload = async () => {
+        const formData = new FormData()
+        formData.append("file", file1)
+        console.log(formData)
+        let res = await fetch("http://localhost:5000/students/student/image/"+user.id, {
+            method: "POST",
+            credentials: "include",
+            // headers: {
+            //     "Content-Type": "application/json"
+            // },
+            body: formData
+        })
+        let data = await res.json()
+        console.log(data)
+    }
 
     const handleStudent = async () => {
         let res = await fetch("http://localhost:5000/students/student", {
@@ -63,13 +76,15 @@ function Student() {
             })
         })
         let data = await res.json()
+        handleDetail()
         console.log(data)
+        handleerror
     }
 
     return (
         <>
             <Header />
-            <h1>Student Page</h1>
+            <h1 className="text-center">Student Page</h1>
             <div style={{
                 width: "60%",
                 margin: "20px auto"
@@ -81,6 +96,10 @@ function Student() {
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Last Name</span>
                     <input onChange={(e) => setLname(e.target.value)} type="text" class="form-control" placeholder="First Name" aria-label="Username" aria-describedby="basic-addon1"/>
+                </div>
+                <div class="input-group mb-3">
+                    <input onChange={(e) => setFile(e.target.files[0])} type="file" class="form-control" id="inputGroupFile02"/>
+                    <label onClick={handleUpload} class="input-group-text" for="inputGroupFile02">Upload</label>
                 </div>
                 <label for="exampleInputEmail1" class="form-label">Select course</label>
                 <select onChange={(e) => setCourse(e.target.value)} class="form-select" aria-label="Default select example">
@@ -106,6 +125,7 @@ function Student() {
                     })
                 }
             </div>
+            <img src={"http://localhost:5000/students/student/image/"+user.id} alt="Profile image"></img>
         </>
     )
 }
